@@ -1,0 +1,33 @@
+---
+name: sonarqube
+packages:
+- java
+- sonarqube
+- plugins
+templates:
+  bin/ctl: bin/ctl
+  bin/monit_debugger: bin/monit_debugger
+  data/properties.sh.erb: data/properties.sh
+  helpers/ctl_setup.sh: helpers/ctl_setup.sh
+  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+  config/sonar.properties.erb: config/sonar.properties
+  config/sonar.sh.erb: config/sonar.sh
+  config/wrapper.conf.erb: config/wrapper.conf
+
+properties:
+  sonarqube:
+   jdbc_url:
+    description: "jdbc:postgresql://localhost:5524/sonarqube"
+   postgres_port:
+    default: 5524
+    description: "5524"
+   jdbc_user: 
+    description: "postgres user"
+   jdbc_password: 
+    description: "postgres password"
+   web_host:
+    description: 127.0.0.1
+   web_context:
+    description: "/"
+   web_port:
+    description: "9000"

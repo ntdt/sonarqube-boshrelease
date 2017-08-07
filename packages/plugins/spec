@@ -1,0 +1,5 @@
+---
+name: plugins
+dependencies: []
+files:
+- plugins/*

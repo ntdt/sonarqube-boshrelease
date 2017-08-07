@@ -1,0 +1,7 @@
+--- 
+blobstore:
+  provider: local
+  options:
+    blobstore_path: ~/sonarqube-boshrelease/blobs
+final_name: sonarqube 
+

@@ -99,7 +99,7 @@ if [ -d "$file" ]; then
     echo "directory $file already exist so will be deleted"	
 fi
 
-PIDFILE=$RUN_DIR/SonarQube.pid
+PIDFILE=$RUN_DIR/sonarqube.pid
 
 cp -rf /var/vcap/jobs/sonarqube/config/sonar.properties $SONAR_INSTALLDIR/conf/sonar.properties
 cp -rf /var/vcap/jobs/sonarqube/config/sonar.sh $SONAR_INSTALLDIR/bin/linux-x86-64/sonar.sh

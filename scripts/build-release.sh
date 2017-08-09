@@ -148,7 +148,7 @@ else
  create_cmd="bosh create-release --name sonarqube --force"
 fi
 
-if [ "$version" != "" ]; then
+if [ -n "$version" ]; then
     create_cmd+=" --version "${version}""
 fi
 

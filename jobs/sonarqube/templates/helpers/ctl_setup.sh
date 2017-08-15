@@ -101,10 +101,24 @@ fi
 
 PIDFILE=$RUN_DIR/sonarqube.pid
 
+if [[ ! -d /var/vcap/store/sonarqube/extensions/plugins ]];then
+  mkdir -p /var/vcap/store/sonarqube/extensions/plugins
+fi
+
+   if [ -L $SONAR_INSTALLDIR/extensions/plugins ] ; then
+     if [ -e $SONAR_INSTALLDIR/extensions/plugins ] ; then
+       echo "Existing link"
+       unlink $SONAR_INSTALLDIR/extensions/plugins
+     fi
+   fi
+rm -rf $SONAR_INSTALLDIR/extensions/plugins
+
+
 cp -rf /var/vcap/jobs/sonarqube/config/sonar.properties $SONAR_INSTALLDIR/conf/sonar.properties
 cp -rf /var/vcap/jobs/sonarqube/config/sonar.sh $SONAR_INSTALLDIR/bin/linux-x86-64/sonar.sh
 cp -rf /var/vcap/jobs/sonarqube/config/wrapper.conf $SONAR_INSTALLDIR/conf/wrapper.conf
-cp -rf /var/vcap/packages/plugins/* $SONAR_INSTALLDIR/extensions/plugins/
+cp -rfn /var/vcap/packages/plugins/* /var/vcap/store/sonarqube/extensions/plugins/
+
 
 chown -R $RUNUSER:$RUNUSER $SONAR_INSTALLDIR 
 run_with_home() {
@@ -117,6 +131,31 @@ run_with_home() {
 #
 do_start()
 {
+   if [ -L $SONAR_INSTALLDIR/extensions/plugins ] ; then
+     if [ -e $SONAR_INSTALLDIR/extensions/plugins ] ; then
+       echo "Good link"
+     else
+       echo "Broken link"
+       ln -s /var/vcap/store/sonarqube/extensions/plugins $SONAR_INSTALLDIR/extensions/
+     fi
+   elif [ -e $SONAR_INSTALLDIR/extensions/plugins  ] ; then
+     echo "Not a link"
+   else
+     echo "Missing"
+     ln -s /var/vcap/store/sonarqube/extensions/plugins $SONAR_INSTALLDIR/extensions/
+   fi
+    
+   if [ -L $SONAR_INSTALLDIR/extensions/plugins ] ; then
+     if [ -e $SONAR_INSTALLDIR/extensions/plugins ] ; then
+       echo "Good link"
+     else
+       echo "Broken link"
+     fi
+   elif [ -e $SONAR_INSTALLDIR/extensions/plugins  ] ; then
+     echo "Not a link"
+   else
+     echo "Missing"
+   fi
     ${SONAR_INSTALLDIR}/bin/linux-x86-64/sonar.sh start
 }
 
@@ -125,8 +164,11 @@ do_start()
 #
 do_stop()
 {
+
+      
       ${SONAR_INSTALLDIR}/bin/linux-x86-64/sonar.sh stop 
       kill_and_wait ${PIDFILE}
+      #
 }
 
 

@@ -1,0 +1,5 @@
+---
+name: tslint
+dependencies: []
+files:
+- tslint/tslint-5.6.0.tar.gz

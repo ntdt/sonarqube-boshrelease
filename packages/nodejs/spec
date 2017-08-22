@@ -1,0 +1,5 @@
+---
+name: nodejs
+dependencies: []
+files:
+- nodejs/node-v8.4.0.tar.gz

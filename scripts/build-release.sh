@@ -80,14 +80,29 @@ else
   mv sonarqube-6.4.zip completed/
 fi
 
+if [ -e './completed/node-v8.4.0.tar.gz' ]; then
+  echo 'httpd package already exists, skipping'
+else
+  echo 'Downloading file node-v8.4.0.tar.gz'
+  wget https://nodejs.org/dist/v8.4.0/node-v8.4.0.tar.gz
+  mv node-v8.4.0.tar.gz completed/
+fi
+
+if [ -e './completed/tslint-5.6.0.tar.gz' ]; then
+  echo 'httpd package already exists, skipping'
+else
+  echo 'Downloading file tslint-5.6.0.tar.gz'
+  wget -O tslint-5.6.0.tar.gz https://github.com/palantir/tslint/archive/5.6.0.tar.gz
+  mv tslint-5.6.0.tar.gz completed/
+fi
+
+
 if [ -e './completed/sonar-findbugs-plugin.jar' ]; then
   echo 'httpd package already exists, skipping'
 else
   echo 'Downloading file sonar-findbugs-plugin.jar'
   wget https://github.com/SonarQubeCommunity/sonar-findbugs/releases/download/3.5.0/sonar-findbugs-plugin.jar
   mv sonar-findbugs-plugin.jar completed/
-  wget https://bintray.com/stevespringett/owasp/download_file?file_path=org%2Fsonarsource%2Fowasp%2Fsonar-dependency-check-plugin%2F1.0.3%2Fsonar-dependency-check-plugin-1.0.3.jar
-  mv download_file?file_path=org%2Fsonarsource%2Fowasp%2Fsonar-dependency-check-plugin%2F1.0.3%2Fsonar-dependency-check-plugin-1.0.3.jar completed/sonar-dependency-check-plugin-1.0.3.jar
 fi
 
 if [ -e './completed/sonar-dependency-check-plugin-1.0.3.jar' ]; then
@@ -98,6 +113,13 @@ else
   mv download_file?file_path=org%2Fsonarsource%2Fowasp%2Fsonar-dependency-check-plugin%2F1.0.3%2Fsonar-dependency-check-plugin-1.0.3.jar completed/sonar-dependency-check-plugin-1.0.3.jar
 fi
 
+if [ -e './completed/sonar-typescript-plugin-1.1.0.jar' ]; then
+  echo 'httpd package already exists, skipping'
+else
+  echo 'Downloading file sonar-typescript-plugin-1.1.0.jar'
+  wget https://github.com/Pablissimo/SonarTsPlugin/releases/download/v1.1.0/sonar-typescript-plugin-1.1.0.jar
+  mv sonar-typescript-plugin-1.1.0.jar completed/
+fi
 
 cd -
 
@@ -123,14 +145,29 @@ else
  bosh add-blob ./tmp/completed/sonarqube-6.4.zip sonarqube/sonarqube-6.4.zip
 fi
 
+echo 'Adding blob nodejs/node-v8.4.0.tar.gz'
+if [ "$BOSHVERSION" = "1" ]; then
+ bosh add blob ./tmp/completed/node-v8.4.0.tar.gz nodejs
+else
+ bosh add-blob ./tmp/completed/node-v8.4.0.tar.gz nodejs/node-v8.4.0.tar.gz
+fi
+
+echo 'Adding blob tslint/tslint-5.6.0.tar.gz'
+if [ "$BOSHVERSION" = "1" ]; then
+ bosh add blob ./tmp/completed/tslint-5.6.0.tar.gz tslint
+else
+ bosh add-blob ./tmp/completed/tslint-5.6.0.tar.gz tslint/tslint-5.6.0.tar.gz
+fi
 
 echo 'Adding blobs plugins'
 if [ "$BOSHVERSION" = "1" ]; then
  bosh add blob ./tmp/completed/sonar-findbugs-plugin.jar plugins
  bosh add blob ./tmp/completed/sonar-dependency-check-plugin-1.0.3.jar plugins
+ bosh add blob ./tmp/completed/sonar-typescript-plugin-1.1.0.jar plugins
 else
  bosh add-blob ./tmp/completed/sonar-findbugs-plugin.jar plugins/sonar-findbugs-plugin.jar
  bosh add-blob ./tmp/completed/sonar-dependency-check-plugin-1.0.3.jar plugins/sonar-dependency-check-plugin-1.0.3.jar
+ bosh add-blob ./tmp/completed/sonar-typescript-plugin-1.1.0.jar plugins/sonar-typescript-plugin-1.1.0.jar
 fi
 
 

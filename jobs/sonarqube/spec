@@ -4,6 +4,8 @@ packages:
 - java
 - sonarqube
 - plugins
+- nodejs
+- tslint
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger

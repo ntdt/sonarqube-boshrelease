@@ -17,6 +17,8 @@ JOB_NAME=$1
 output_label=${2:-${JOB_NAME}}
 
 export JOB_DIR=/var/vcap/jobs/$JOB_NAME
+export PATH=$PATH:/var/vcap/packages/nodejs/bin
+export PATH=$PATH:/var/vcap/packages/tslint/bin
 chmod 755 $JOB_DIR # to access file via symlink
 
 # Load some bosh deployment properties into env vars

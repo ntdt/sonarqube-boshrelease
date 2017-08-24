@@ -72,12 +72,12 @@ else
   mv jdk-8u131-linux-x64.tar.gz completed/
 fi
 
-if [ -e './completed/sonarqube-6.4.zip' ]; then
+if [ -e './completed/sonarqube-6.5.zip' ]; then
   echo 'httpd package already exists, skipping'
 else
-  echo 'Downloading file sonarqube-6.4.zip'
-  wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.4.zip
-  mv sonarqube-6.4.zip completed/
+  echo 'Downloading file sonarqube-6.5.zip'
+  wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.5.zip
+  mv sonarqube-6.5.zip completed/
 fi
 
 if [ -e './completed/sonar-findbugs-plugin.jar' ]; then
@@ -121,11 +121,11 @@ if [ "$BOSHVERSION" = "1" ]; then
 else
  bosh add-blob ./tmp/completed/jdk-8u131-linux-x64.tar.gz java/jdk-8u131-linux-x64.tar.gz
 fi
-echo 'Adding blob java/sonarqube-6.4.zip'
+echo 'Adding blob java/sonarqube-6.5.zip'
 if [ "$BOSHVERSION" = "1" ]; then
- bosh add blob ./tmp/completed/sonarqube-6.4.zip sonarqube
+ bosh add blob ./tmp/completed/sonarqube-6.5.zip sonarqube
 else
- bosh add-blob ./tmp/completed/sonarqube-6.4.zip sonarqube/sonarqube-6.4.zip
+ bosh add-blob ./tmp/completed/sonarqube-6.5.zip sonarqube/sonarqube-6.5.zip
 fi
 
 
